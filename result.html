@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Resume Analysis Result</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .result-page {
+
+            min-height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 30px;
+
+        }
+
+        .result-card {
+
+            width: 700px;
+
+            max-width: 95%;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .result-card h1 {
+
+            text-align: center;
+
+            color: #172554;
+
+            margin-bottom: 30px;
+
+        }
+
+        .result-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 15px;
+
+            margin-bottom: 12px;
+
+            background: #f8fafc;
+
+            border-radius: 8px;
+
+        }
+
+        .result-label {
+
+            font-weight: bold;
+
+            color: #172554;
+
+        }
+
+        .result-value {
+
+            color: #334155;
+
+            text-align: right;
+
+            max-width: 65%;
+
+        }
+
+        .score-box {
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            text-align: center;
+
+            background: #eef2ff;
+
+            border-radius: 10px;
+
+        }
+
+        .score-box h2 {
+
+            margin: 0;
+
+            color: #172554;
+
+        }
+
+        #matchScore {
+
+            font-size: 35px;
+
+            font-weight: bold;
+
+            color: #2563eb;
+
+            margin-top: 10px;
+
+        }
+
+        .back-button {
+
+            display: block;
+
+            width: fit-content;
+
+            margin: 25px auto 0;
+
+            padding: 12px 25px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+        }
+
+        .back-button:hover {
+
+            background: #1d4ed8;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="result-page">
+
+
+    <div class="result-card">
+
+
+        <h1>Resume Analysis Result</h1>
+
+
+        <!-- NAME -->
+
+        <div class="result-item">
+
+            <span class="result-label">
+                Name
+            </span>
+
+            <span class="result-value"
+                  id="name">
+                -
+            </span>
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="result-item">
+
+            <span class="result-label">
+                Email
+            </span>
+
+            <span class="result-value"
+                  id="email">
+                -
+            </span>
+
+        </div>
+
+
+        <!-- SKILLS -->
+
+        <div class="result-item">
+
+            <span class="result-label">
+                Skills
+            </span>
+
+            <span class="result-value"
+                  id="skills">
+                -
+            </span>
+
+        </div>
+
+
+        <!-- EDUCATION -->
+
+        <div class="result-item">
+
+            <span class="result-label">
+                Education
+            </span>
+
+            <span class="result-value"
+                  id="education">
+                -
+            </span>
+
+        </div>
+
+
+        <!-- EXPERIENCE -->
+
+        <div class="result-item">
+
+            <span class="result-label">
+                Experience
+            </span>
+
+            <span class="result-value"
+                  id="experience">
+                -
+            </span>
+
+        </div>
+
+
+        <!-- MATCH SCORE -->
+
+        <div class="score-box">
+
+            <h2>
+                Job Match Score
+            </h2>
+
+            <div id="matchScore">
+                -
+            </div>
+
+        </div>
+
+
+        <a href="upload.html"
+           class="back-button">
+
+            Analyze Another Resume
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    // Get saved resume result
+    let savedResult =
+        localStorage.getItem("resumeResult");
+
+
+    if (savedResult) {
+
+        let result =
+            JSON.parse(savedResult);
+
+
+        // Display name
+        document.getElementById("name").innerText =
+            result.name || "Not found";
+
+
+        // Display email
+        document.getElementById("email").innerText =
+            result.email || "Not found";
+
+
+        // Display skills
+        document.getElementById("skills").innerText =
+            result.skills || "Not found";
+
+
+        // Display education
+        document.getElementById("education").innerText =
+            result.education || "Not found";
+
+
+        // Display experience
+        document.getElementById("experience").innerText =
+            result.experience || "Not found";
+
+
+        // Display match score
+        document.getElementById("matchScore").innerText =
+            (result.matchScore || 0) + "%";
+
+    }
+
+
+    else {
+
+        document.getElementById("name").innerText =
+            "No result available";
+
+        document.getElementById("email").innerText =
+            "-";
+
+        document.getElementById("skills").innerText =
+            "-";
+
+        document.getElementById("education").innerText =
+            "-";
+
+        document.getElementById("experience").innerText =
+            "-";
+
+        document.getElementById("matchScore").innerText =
+            "0%";
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
