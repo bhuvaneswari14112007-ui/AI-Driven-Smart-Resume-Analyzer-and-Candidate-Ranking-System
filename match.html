@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Job Match Result - Smart Resume Analyzer</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172554;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 38px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            margin: 0 0 12px;
+        }
+
+        .job-title {
+            color: #64748b;
+            font-size: 20px;
+        }
+
+        .score-card {
+            background: #eef2ff;
+            text-align: center;
+            padding: 35px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .score-card h2 {
+            margin: 0 0 15px;
+            font-size: 28px;
+        }
+
+        .score {
+            font-size: 62px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .section-title {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .details {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .details strong {
+            color: #172554;
+        }
+
+        .skill-box {
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .matched-box {
+            background: #ecfdf5;
+        }
+
+        .missing-box {
+            background: #fef2f2;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill {
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            background: white;
+            border: 1px solid #d1d5db;
+        }
+
+        .matched-skill {
+            color: #15803d;
+        }
+
+        .missing-skill {
+            color: #dc2626;
+        }
+
+        .empty {
+            color: #64748b;
+            font-size: 17px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .button {
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            background: #2563eb;
+            color: white;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #64748b;
+        }
+
+        .secondary:hover {
+            background: #475569;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="card header">
+
+        <h1>
+            Job Match Result
+        </h1>
+
+        <div
+            class="job-title"
+            id="jobTitle"
+        >
+            Job Title
+        </div>
+
+
+        <!-- SCORE -->
+
+        <div class="score-card">
+
+            <h2>
+                Resume Match Score
+            </h2>
+
+            <div
+                class="score"
+                id="matchScore"
+            >
+                0%
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- RESUME DETAILS -->
+
+    <div class="card">
+
+        <h2 class="section-title">
+            Resume Details
+        </h2>
+
+
+        <div class="details">
+
+            <strong>Name:</strong>
+
+            <span id="candidateName">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="details">
+
+            <strong>Email:</strong>
+
+            <span id="candidateEmail">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="details">
+
+            <strong>Resume Skills:</strong>
+
+            <span id="resumeSkills">
+                -
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MATCHED SKILLS -->
+
+    <div class="card skill-box matched-box">
+
+        <h2 class="section-title">
+
+            ✅ Matched Skills
+
+        </h2>
+
+
+        <div
+            class="skill-list"
+            id="matchedSkills"
+        >
+
+            <div class="empty">
+                No matched skills yet.
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MISSING SKILLS -->
+
+    <div class="card skill-box missing-box">
+
+        <h2 class="section-title">
+
+            ❌ Missing Skills
+
+        </h2>
+
+
+        <div
+            class="skill-list"
+            id="missingSkills"
+        >
+
+            <div class="empty">
+                No missing skills.
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- BUTTONS -->
+
+    <div class="buttons">
+
+        <a
+            href="job.html"
+            class="button"
+        >
+            ← Try Another Job
+        </a>
+
+
+        <a
+            href="dashboard.html"
+            class="button secondary"
+        >
+            Dashboard
+        </a>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        console.log(
+            "Match page loaded"
+        );
+
+
+        // =========================================
+        // GET RESUME DATA
+        // =========================================
+
+        const resumeData =
+            localStorage.getItem(
+                "resumeResult"
+            );
+
+
+        // =========================================
+        // GET JOB DATA
+        // =========================================
+
+        const jobData =
+            localStorage.getItem(
+                "jobData"
+            );
+
+
+        console.log(
+            "Resume Data:",
+            resumeData
+        );
+
+        console.log(
+            "Job Data:",
+            jobData
+        );
+
+
+        // =========================================
+        // CHECK RESUME
+        // =========================================
+
+        if (!resumeData) {
+
+            alert(
+                "Resume data not found. Please upload your resume first."
+            );
+
+            return;
+        }
+
+
+        // =========================================
+        // CHECK JOB
+        // =========================================
+
+        if (!jobData) {
+
+            alert(
+                "Job data not found. Please enter the job details first."
+            );
+
+            return;
+        }
+
+
+        try {
+
+
+            const resume =
+                JSON.parse(
+                    resumeData
+                );
+
+
+            const job =
+                JSON.parse(
+                    jobData
+                );
+
+
+            // =========================================
+            // RESUME DETAILS
+            // =========================================
+
+            document.getElementById(
+                "candidateName"
+            ).innerText =
+                resume.name ||
+                "Not found";
+
+
+            document.getElementById(
+                "candidateEmail"
+            ).innerText =
+                resume.email ||
+                "Not found";
+
+
+            document.getElementById(
+                "resumeSkills"
+            ).innerText =
+                resume.skills ||
+                "Not found";
+
+
+            // =========================================
+            // JOB TITLE
+            // =========================================
+
+            document.getElementById(
+                "jobTitle"
+            ).innerText =
+                job.jobTitle ||
+                "Job Title";
+
+
+            // =========================================
+            // GET MATCHED SKILLS
+            // =========================================
+
+            let matchedSkills =
+                job.matchedSkills || [];
+
+
+            let missingSkills =
+                job.missingSkills || [];
+
+
+            // =========================================
+            // IF ARRAYS ARE EMPTY, CALCULATE AGAIN
+            // =========================================
+
+            if (
+                matchedSkills.length === 0 &&
+                missingSkills.length === 0
+            ) {
+
+
+                const resumeSkills =
+                    (resume.skills || "")
+                    .toLowerCase()
+                    .split(",")
+                    .map(
+                        skill =>
+                            skill.trim()
+                    )
+                    .filter(
+                        skill =>
+                            skill !== ""
+                    );
+
+
+                const requiredSkills =
+                    (job.requiredSkills || "")
+                    .toLowerCase()
+                    .split(",")
+                    .map(
+                        skill =>
+                            skill.trim()
+                    )
+                    .filter(
+                        skill =>
+                            skill !== ""
+                    );
+
+
+                matchedSkills =
+                    requiredSkills.filter(
+                        jobSkill => {
+
+                            return resumeSkills.some(
+                                resumeSkill => {
+
+                                    return (
+                                        resumeSkill ===
+                                        jobSkill
+                                    );
+
+                                }
+                            );
+
+                        }
+                    );
+
+
+                missingSkills =
+                    requiredSkills.filter(
+                        jobSkill => {
+
+                            return !resumeSkills.some(
+                                resumeSkill => {
+
+                                    return (
+                                        resumeSkill ===
+                                        jobSkill
+                                    );
+
+                                }
+                            );
+
+                        }
+                    );
+
+            }
+
+
+            // =========================================
+            // CALCULATE SCORE
+            // =========================================
+
+            let score = 0;
+
+
+            const totalSkills =
+                matchedSkills.length +
+                missingSkills.length;
+
+
+            if (totalSkills > 0) {
+
+                score =
+                    Math.round(
+                        (
+                            matchedSkills.length /
+                            totalSkills
+                        ) * 100
+                    );
+
+            }
+
+
+            // =========================================
+            // DISPLAY SCORE
+            // =========================================
+
+            document.getElementById(
+                "matchScore"
+            ).innerText =
+                score + "%";
+
+
+            // =========================================
+            // DISPLAY MATCHED SKILLS
+            // =========================================
+
+            const matchedContainer =
+                document.getElementById(
+                    "matchedSkills"
+                );
+
+
+            matchedContainer.innerHTML = "";
+
+
+            if (
+                matchedSkills.length === 0
+            ) {
+
+                matchedContainer.innerHTML =
+                    '<div class="empty">No matched skills.</div>';
+
+            }
+
+            else {
+
+                matchedSkills.forEach(
+                    skill => {
+
+                        const item =
+                            document.createElement(
+                                "div"
+                            );
+
+                        item.className =
+                            "skill matched-skill";
+
+                        item.innerText =
+                            "✓ " + skill;
+
+                        matchedContainer.appendChild(
+                            item
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =========================================
+            // DISPLAY MISSING SKILLS
+            // =========================================
+
+            const missingContainer =
+                document.getElementById(
+                    "missingSkills"
+                );
+
+
+            missingContainer.innerHTML = "";
+
+
+            if (
+                missingSkills.length === 0
+            ) {
+
+                missingContainer.innerHTML =
+                    '<div class="empty">No missing skills. All required skills matched!</div>';
+
+            }
+
+            else {
+
+                missingSkills.forEach(
+                    skill => {
+
+                        const item =
+                            document.createElement(
+                                "div"
+                            );
+
+                        item.className =
+                            "skill missing-skill";
+
+                        item.innerText =
+                            "✗ " + skill;
+
+                        missingContainer.appendChild(
+                            item
+                        );
+
+                    }
+                );
+
+            }
+
+
+            console.log(
+                "Match calculation completed"
+            );
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Match page error:",
+                error
+            );
+
+            alert(
+                "Unable to load match result."
+            );
+
+        }
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>
