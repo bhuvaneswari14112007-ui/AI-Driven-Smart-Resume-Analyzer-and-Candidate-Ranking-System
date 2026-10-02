@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Job Matching - Smart Resume Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .job-page {
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+        }
+
+        .job-card {
+            width: 750px;
+            max-width: 95%;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-card h1 {
+            text-align: center;
+
+            color: #172554;
+
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #64748b;
+
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-weight: bold;
+
+            color: #172554;
+
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+
+            resize: vertical;
+        }
+
+        .example {
+            font-size: 13px;
+
+            color: #64748b;
+
+            margin-top: 6px;
+        }
+
+        .analyze-button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .analyze-button:hover {
+            background: #1d4ed8;
+        }
+
+        .back-link {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #2563eb;
+
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="job-page">
+
+
+    <div class="job-card">
+
+
+        <h1>Job Matching</h1>
+
+        <p class="subtitle">
+            Enter the job requirements to compare them
+            with your resume.
+        </p>
+
+
+        <!-- JOB TITLE -->
+
+        <div class="form-group">
+
+            <label for="jobTitle">
+                Job Title
+            </label>
+
+            <input
+                type="text"
+                id="jobTitle"
+                placeholder="Example: Java Developer"
+            >
+
+        </div>
+
+
+        <!-- REQUIRED SKILLS -->
+
+        <div class="form-group">
+
+            <label for="requiredSkills">
+                Required Skills
+            </label>
+
+            <input
+                type="text"
+                id="requiredSkills"
+                placeholder="Example: Java, SQL, Spring Boot, Git"
+            >
+
+            <p class="example">
+                Enter skills separated by commas.
+            </p>
+
+        </div>
+
+
+        <!-- JOB DESCRIPTION -->
+
+        <div class="form-group">
+
+            <label for="jobDescription">
+                Job Description
+            </label>
+
+            <textarea
+                id="jobDescription"
+                placeholder="Paste the job description here..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- ANALYZE BUTTON -->
+
+        <button
+            class="analyze-button"
+            onclick="analyzeJob()">
+
+            Analyze Match
+
+        </button>
+
+
+        <!-- BACK -->
+
+        <a
+            href="result.html"
+            class="back-link">
+
+            ← Back to Resume Result
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    // ==================================
+    // ANALYZE JOB
+    // ==================================
+
+    function analyzeJob() {
+
+        // Get job title
+        let jobTitle =
+            document.getElementById("jobTitle").value.trim();
+
+
+        // Get required skills
+        let requiredSkills =
+            document.getElementById("requiredSkills").value.trim();
+
+
+        // Get job description
+        let jobDescription =
+            document.getElementById("jobDescription").value.trim();
+
+
+        // Check job title
+        if (jobTitle === "") {
+
+            alert("Please enter the job title.");
+
+            return;
+        }
+
+
+        // Check required skills
+        if (requiredSkills === "") {
+
+            alert("Please enter the required skills.");
+
+            return;
+        }
+
+
+        // Check job description
+        if (jobDescription === "") {
+
+            alert("Please enter the job description.");
+
+            return;
+        }
+
+
+        // Create job object
+        let jobData = {
+
+            jobTitle: jobTitle,
+
+            requiredSkills: requiredSkills,
+
+            jobDescription: jobDescription
+
+        };
+
+
+        // Save job details
+        localStorage.setItem(
+            "jobData",
+            JSON.stringify(jobData)
+        );
+
+
+        // Move to next page
+        window.location.href = "match.html";
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
