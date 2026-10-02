@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Resume - Smart Resume Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="upload-page">
+
+        <div class="upload-card">
+
+            <h1>Upload Resume</h1>
+
+            <p>
+                Upload your resume to analyze your skills
+                and calculate your job matching score.
+            </p>
+
+            <div class="upload-box">
+
+                <div class="upload-icon">📄</div>
+
+                <h2>Select Your Resume</h2>
+
+                <p>PDF files only</p>
+
+                <input
+                    type="file"
+                    id="resumeFile"
+                    accept=".pdf"
+                    onchange="showFileName()"
+                >
+
+                <p id="fileName"></p>
+
+            </div>
+
+            <button onclick="uploadResume()">
+                Analyze Resume
+            </button>
+
+            <a href="dashboard.html">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
