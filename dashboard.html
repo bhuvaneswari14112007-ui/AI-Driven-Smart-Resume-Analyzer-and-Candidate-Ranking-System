@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - Smart Resume Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172554;
+        }
+
+
+        /* ================================
+           SIDEBAR
+        ================================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 267px;
+            height: 100vh;
+
+            background: #172554;
+            color: white;
+
+            padding: 25px 18px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+
+            margin-bottom: 45px;
+        }
+
+        .logo span {
+            display: block;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: white;
+
+            padding: 15px 18px;
+
+            border-radius: 10px;
+
+            font-size: 17px;
+
+            display: block;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #2563eb;
+        }
+
+
+        /* ================================
+           MAIN
+        ================================= */
+
+        .main {
+            margin-left: 267px;
+            padding: 32px 36px;
+
+            min-height: 100vh;
+        }
+
+
+        /* ================================
+           TOP
+        ================================= */
+
+        .top {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+        .top h1 {
+            margin: 0;
+
+            font-size: 34px;
+        }
+
+        .top p {
+            margin-top: 8px;
+
+            color: #64748b;
+
+            font-size: 18px;
+        }
+
+        .candidate {
+            background: white;
+
+            padding: 16px 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+
+            font-weight: bold;
+
+            font-size: 16px;
+        }
+
+
+        /* ================================
+           STAT CARDS
+        ================================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            color: #64748b;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            margin-bottom: 14px;
+        }
+
+        .card-value {
+            color: #2563eb;
+
+            font-size: 29px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================================
+           SECTION TITLE
+        ================================= */
+
+        .section-title {
+            font-size: 26px;
+
+            margin:
+                25px 0 18px;
+        }
+
+
+        /* ================================
+           RESUME MATCHING
+        ================================= */
+
+        .matching-card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 32px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 45px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+
+            margin-bottom: 30px;
+        }
+
+        .circle {
+            width: 170px;
+            height: 170px;
+
+            border-radius: 50%;
+
+            border:
+                18px solid #dbe3ef;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .circle span {
+            font-size: 30px;
+
+            font-weight: bold;
+
+            color: #2563eb;
+        }
+
+        .matching-content h2 {
+            margin: 0 0 15px;
+
+            font-size: 27px;
+        }
+
+        .matching-content p {
+            color: #64748b;
+
+            font-size: 17px;
+        }
+
+
+        /* ================================
+           QUICK ACTIONS
+        ================================= */
+
+        .quick-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+        }
+
+        .action {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+
+            cursor: pointer;
+        }
+
+        .action:hover {
+            transform: translateY(-2px);
+        }
+
+        .action h3 {
+            color: #2563eb;
+
+            margin:
+                0 0 10px;
+
+            font-size: 20px;
+        }
+
+        .action p {
+            color: #64748b;
+
+            margin: 0;
+        }
+
+        .action a {
+            text-decoration: none;
+
+            color: inherit;
+        }
+
+
+        /* ================================
+           TABLE
+        ================================= */
+
+        .table-card {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+
+            padding: 18px 15px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+
+            color: #334155;
+        }
+
+        td {
+            color: #475569;
+        }
+
+        .status {
+            color: #16a34a;
+
+            font-weight: bold;
+        }
+
+
+        /* ================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+
+                padding: 25px;
+            }
+
+            .stats,
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================================
+         SIDEBAR
+    ================================= -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            📄
+
+            <span>Smart Resume</span>
+            <span>Analyzer</span>
+
+        </div>
+
+
+        <div class="menu">
+
+            <a href="dashboard.html"
+               class="active">
+
+                🏠 Dashboard
+
+            </a>
+
+
+            <a href="upload.html">
+
+                📤 Upload Resume
+
+            </a>
+
+
+            <a href="result.html">
+
+                📊 Resume Result
+
+            </a>
+
+
+            <a href="job.html">
+
+                💼 Job Details
+
+            </a>
+
+
+            <a href="match.html">
+
+                🎯 Job Matching
+
+            </a>
+
+
+            <a href="login.html">
+
+                📕 Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <div class="main">
+
+
+        <!-- TOP -->
+
+        <div class="top">
+
+            <div>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Smart Resume Analysis System
+                </p>
+
+            </div>
+
+
+            <div class="candidate">
+
+                👤
+
+                <span id="candidateUser">
+                    Candidate User
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================
+             STAT CARDS
+        ================================= -->
+
+        <div class="stats">
+
+
+            <!-- RESUME STATUS -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    RESUME STATUS
+                </div>
+
+                <div
+                    class="card-value"
+                    id="resumeStatus"
+                >
+                    Not Analyzed
+                </div>
+
+            </div>
+
+
+
+            <!-- RESUME SCORE -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    RESUME ANALYSIS SCORE
+                </div>
+
+                <div
+                    class="card-value"
+                    id="dashboardScore"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+
+            <!-- SYSTEM STATUS -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    SYSTEM STATUS
+                </div>
+
+                <div class="card-value">
+                    Active
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================
+             RESUME MATCHING
+        ================================= -->
+
+        <h2 class="section-title">
+            Resume Matching
+        </h2>
+
+
+        <div class="matching-card">
+
+
+            <div class="circle">
+
+                <span id="progressScore">
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="matching-content">
+
+                <h2 id="matchingHeading">
+                    No Resume Analyzed Yet
+                </h2>
+
+                <p id="matchingDescription">
+                    Upload your resume to analyze
+                    your skills and calculate your
+                    resume analysis score.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================
+             QUICK ACTIONS
+        ================================= -->
+
+        <h2 class="section-title">
+            Quick Actions
+        </h2>
+
+
+        <div class="quick-actions">
+
+
+            <!-- UPLOAD -->
+
+            <div class="action">
+
+                <a href="upload.html">
+
+                    <h3>
+                        📤 Upload Resume
+                    </h3>
+
+                    <p>
+                        Upload your PDF resume
+                        for analysis.
+                    </p>
+
+                </a>
+
+            </div>
+
+
+
+            <!-- RESULT -->
+
+            <div class="action">
+
+                <a href="result.html">
+
+                    <h3>
+                        📊 View Result
+                    </h3>
+
+                    <p>
+                        View your extracted
+                        resume details.
+                    </p>
+
+                </a>
+
+            </div>
+
+
+
+            <!-- JOB MATCHING -->
+
+            <div class="action">
+
+                <a href="job.html">
+
+                    <h3>
+                        💼 Job Matching
+                    </h3>
+
+                    <p>
+                        Compare your resume
+                        with job requirements.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================
+             CURRENT RESUME
+        ================================= -->
+
+        <h2 class="section-title">
+            Current Resume
+        </h2>
+
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Skills
+                        </th>
+
+                        <th>
+                            Resume Score
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td id="dashboardName">
+                            No resume uploaded
+                        </td>
+
+                        <td id="dashboardEmail">
+                            --
+                        </td>
+
+                        <td id="dashboardSkills">
+                            --
+                        </td>
+
+                        <td id="dashboardTableScore">
+                            --
+                        </td>
+
+                        <td
+                            id="candidateStatus"
+                            class="status"
+                        >
+                            Not Analyzed
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================
+         ONLY SCRIPT.JS
+    ================================= -->
+
+    <script src="script.js?v=3"></script>
+
+
+</body>
+
+</html>
